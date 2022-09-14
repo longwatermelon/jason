@@ -1,4 +1,5 @@
 #include "lexer.h"
+#include "parser.h"
 #include "token.h"
 #include <fmt/format.h>
 #include <fstream>
@@ -15,13 +16,17 @@ int main()
 
     ifs.close();
 
-    Lexer lexer(ss.str());
-    Token t;
+    // Lexer lexer(ss.str());
+    // Token t;
 
-    while ((t = lexer.next_tok()).type != TokenType::EOF_)
-    {
-        fmt::print("{} | {}\n", (int)t.type, t.value);
-    }
+    // while ((t = lexer.next_tok()).type != TokenType::EOF_)
+    // {
+    //     fmt::print("{} | {}\n", (int)t.type, t.value);
+    // }
+
+    Parser parser(ss.str());
+    std::unique_ptr<Node> n = parser.parse();
+    fmt::print("hoo hee\n");
 
     return 0;
 }
