@@ -3,23 +3,23 @@
 #include <fmt/format.h>
 #include <stdexcept>
 
-Lexer::Lexer(const std::string &contents)
+jason::impl::Lexer::Lexer(const std::string &contents)
     : m_contents(contents)
 {
     m_ch = m_contents[0];
 }
 
-Lexer::~Lexer()
+jason::impl::Lexer::~Lexer()
 {
 }
 
-void Lexer::advance()
+void jason::impl::Lexer::advance()
 {
     if (m_index < m_contents.size())
         m_ch = m_contents[++m_index];
 }
 
-std::string Lexer::collect_str()
+std::string jason::impl::Lexer::collect_str()
 {
     std::string res;
     advance();
@@ -35,7 +35,7 @@ std::string Lexer::collect_str()
     return res;
 }
 
-std::string Lexer::collect_int()
+std::string jason::impl::Lexer::collect_int()
 {
     std::string res;
 
@@ -48,7 +48,7 @@ std::string Lexer::collect_int()
     return res;
 }
 
-Token Lexer::next_tok()
+Token jason::impl::Lexer::next_tok()
 {
     auto adv = [&](TokenType type, std::string c){
         advance();
@@ -78,7 +78,7 @@ Token Lexer::next_tok()
             break;
         default:
             throw std::runtime_error(
-                fmt::format("[Lexer::next_tok] Unexpected character '{}' on line {}.", m_ch, m_line));
+                fmt::format("[jason::impl::Lexer::next_tok] Unexpected character '{}' on line {}.", m_ch, m_line));
         }
     }
 

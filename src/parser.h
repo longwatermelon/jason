@@ -3,22 +3,25 @@
 #include "node.h"
 #include "token.h"
 
-class Parser
+namespace jason::impl
 {
-public:
-    Parser(const std::string &contents);
-    ~Parser();
+    class Parser
+    {
+    public:
+        Parser(const std::string &contents);
+        ~Parser();
 
-    void expect(TokenType type);
+        void expect(TokenType type);
 
-    std::unique_ptr<Node> parse();
-    std::unique_ptr<Node> parse_pair();
+        std::unique_ptr<Node> parse();
+        std::unique_ptr<Node> parse_pair();
 
-    std::unique_ptr<Node> parse_value();
-    std::unique_ptr<Node> parse_str();
-    std::unique_ptr<Node> parse_int();
+        std::unique_ptr<Node> parse_value();
+        std::unique_ptr<Node> parse_str();
+        std::unique_ptr<Node> parse_int();
 
-private:
-    Lexer m_lexer;
-    Token m_curr, m_prev;
-};
+    private:
+        Lexer m_lexer;
+        Token m_curr, m_prev;
+    };
+}

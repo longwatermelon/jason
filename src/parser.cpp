@@ -5,17 +5,19 @@
 #include <stdexcept>
 #include <fmt/core.h>
 
-Parser::Parser(const std::string &contents)
+using Node = jason::impl::Node;
+
+jason::impl::Parser::Parser(const std::string &contents)
     : m_lexer(contents)
 {
     m_curr = m_lexer.next_tok();
 }
 
-Parser::~Parser()
+jason::impl::Parser::~Parser()
 {
 }
 
-void Parser::expect(TokenType type)
+void jason::impl::Parser::expect(TokenType type)
 {
     if (m_curr.type == type)
     {
@@ -25,13 +27,13 @@ void Parser::expect(TokenType type)
     else
     {
         throw std::runtime_error(
-            fmt::format("[Parser::expect] Error: Unexpected token of type {} on line {}.",
+            fmt::format("[jason::impl::Parser::expect] Error: Unexpected token of type {} on line {}.",
                     (int)m_curr.type, m_curr.line)
         );
     }
 }
 
-std::unique_ptr<Node> Parser::parse()
+std::unique_ptr<Node> jason::impl::Parser::parse()
 {
     expect(TokenType::LBRACE);
     std::unique_ptr<Node> root = std::make_unique<Node>(NodeType::COMPOUND);
@@ -59,7 +61,7 @@ std::unique_ptr<Node> Parser::parse()
     return root;
 }
 
-std::unique_ptr<Node> Parser::parse_pair()
+std::unique_ptr<Node> jason::impl::Parser::parse_pair()
 {
     std::unique_ptr<Node> pair = std::make_unique<Node>(NodeType::PAIR);
     pair->pair_key = parse_value();
@@ -69,7 +71,7 @@ std::unique_ptr<Node> Parser::parse_pair()
     return pair;
 }
 
-std::unique_ptr<Node> Parser::parse_value()
+std::unique_ptr<Node> jason::impl::Parser::parse_value()
 {
     switch (m_curr.type)
     {
@@ -79,7 +81,7 @@ std::unique_ptr<Node> Parser::parse_value()
     }
 }
 
-std::unique_ptr<Node> Parser::parse_str()
+std::unique_ptr<Node> jason::impl::Parser::parse_str()
 {
     std::unique_ptr<Node> n = std::make_unique<Node>(NodeType::STRING);
     n->string_value = m_curr.value;
@@ -88,7 +90,7 @@ std::unique_ptr<Node> Parser::parse_str()
     return n;
 }
 
-std::unique_ptr<Node> Parser::parse_int()
+std::unique_ptr<Node> jason::impl::Parser::parse_int()
 {
     std::unique_ptr<Node> n = std::make_unique<Node>(NodeType::INT);
     n->int_value = std::atoi(m_curr.value.c_str());

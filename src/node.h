@@ -4,32 +4,35 @@
 #include <memory>
 #include <vector>
 
-enum class NodeType
+namespace jason::impl
 {
-    NOOP = 0,
-    INT,
-    STRING,
-    PAIR,
-    COMPOUND
-};
+    enum class NodeType
+    {
+        NOOP = 0,
+        INT,
+        STRING,
+        PAIR,
+        COMPOUND
+    };
 
-struct Node
-{
-    NodeType type{ NodeType::NOOP };
-    std::size_t line{ 0 };
+    struct Node
+    {
+        NodeType type{ NodeType::NOOP };
+        std::size_t line{ 0 };
 
-    // int
-    int int_value{ 0 };
+        // int
+        int int_value{ 0 };
 
-    // string
-    std::string string_value;
+        // string
+        std::string string_value;
 
-    // pair
-    std::unique_ptr<Node> pair_key, pair_value;
+        // pair
+        std::unique_ptr<Node> pair_key, pair_value;
 
-    // compound
-    std::vector<std::unique_ptr<Node>> cpd_values;
+        // compound
+        std::vector<std::unique_ptr<Node>> cpd_values;
 
-    Node(NodeType type)
-        : type(type) {}
-};
+        Node(NodeType type)
+            : type(type) {}
+    };
+}
