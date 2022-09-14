@@ -29,7 +29,7 @@ jason::Json::~Json()
 {
 }
 
-const jason::impl::Node &jason::Json::get(const std::string &key)
+const jason::impl::Node &jason::Json::get(const std::string &key) const
 {
     for (const auto &p : m_pairs)
     {
