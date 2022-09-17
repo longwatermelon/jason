@@ -11,6 +11,7 @@ namespace jason::impl
         NOOP = 0,
         INT,
         STRING,
+        LIST,
         PAIR,
         COMPOUND
     };
@@ -25,6 +26,9 @@ namespace jason::impl
 
         // string
         std::string string_value;
+
+        // list
+        std::vector<std::unique_ptr<Node>> list_values;
 
         // pair
         std::unique_ptr<Node> pair_key, pair_value;

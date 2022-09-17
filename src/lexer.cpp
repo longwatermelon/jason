@@ -72,6 +72,8 @@ Token jason::impl::Lexer::next_tok()
         case '}': return adv(TokenType::RBRACE, "}");
         case ':': return adv(TokenType::COLON, ":");
         case ',': return adv(TokenType::COMMA, ",");
+        case '[': return adv(TokenType::LBRACKET, "[");
+        case ']': return adv(TokenType::RBRACKET, "]");
         case '\n':
             ++m_line;
             advance();

@@ -1,4 +1,10 @@
 {
     "key": "value",
-    "ikey": 42
+    "ikey": 42,
+    "list key": [
+        1,
+        "hoo haw",
+        999,
+        "100"
+    ]
 }

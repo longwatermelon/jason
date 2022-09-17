@@ -77,6 +77,7 @@ std::unique_ptr<Node> jason::impl::Parser::parse_value()
     {
     case TokenType::INT: return parse_int();
     case TokenType::STRING: return parse_str();
+    case TokenType::LBRACKET: return parse_list();
     default: return nullptr;
     }
 }
@@ -97,4 +98,21 @@ std::unique_ptr<Node> jason::impl::Parser::parse_int()
     expect(TokenType::INT);
 
     return n;
+}
+
+std::unique_ptr<Node> jason::impl::Parser::parse_list()
+{
+    std::unique_ptr<Node> list = std::make_unique<Node>(NodeType::LIST);
+    expect(TokenType::LBRACKET);
+
+    while (m_curr.type != TokenType::RBRACKET)
+    {
+        list->list_values.emplace_back(parse_value());
+
+        if (m_curr.type != TokenType::RBRACKET)
+            expect(TokenType::COMMA);
+    }
+
+    expect(TokenType::RBRACKET);
+    return list;
 }

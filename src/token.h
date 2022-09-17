@@ -7,6 +7,8 @@ enum class TokenType
     INT,
     LBRACE,
     RBRACE,
+    LBRACKET,
+    RBRACKET,
     COLON,
     COMMA,
     EOF_
