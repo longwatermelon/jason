@@ -35,30 +35,31 @@ void jason::impl::Parser::expect(TokenType type)
 
 std::unique_ptr<Node> jason::impl::Parser::parse()
 {
-    expect(TokenType::LBRACE);
-    std::unique_ptr<Node> root = std::make_unique<Node>(NodeType::COMPOUND);
-    root->cpd_values.emplace_back(parse_pair());
+    return parse_value();
+    // expect(TokenType::LBRACE);
+    // std::unique_ptr<Node> root = std::make_unique<Node>(NodeType::COMPOUND);
+    // root->cpd_values.emplace_back(parse_pair());
 
-    if (root->cpd_values[0])
-    {
-        while (m_curr.type != TokenType::EOF_)
-        {
-            if (m_curr.type != TokenType::RBRACE) expect(TokenType::COMMA);
-            else break;
+    // if (root->cpd_values[0])
+    // {
+    //     while (m_curr.type != TokenType::EOF_)
+    //     {
+    //         if (m_curr.type != TokenType::RBRACE) expect(TokenType::COMMA);
+    //         else break;
 
-            std::unique_ptr<Node> expr = parse_pair();
-            if (!expr) break;
+    //         std::unique_ptr<Node> expr = parse_pair();
+    //         if (!expr) break;
 
-            root->cpd_values.emplace_back(std::move(expr));
-        }
-    }
-    else
-    {
-        root->cpd_values[0] = std::make_unique<Node>(NodeType::NOOP);
-    }
+    //         root->cpd_values.emplace_back(std::move(expr));
+    //     }
+    // }
+    // else
+    // {
+    //     root->cpd_values[0] = std::make_unique<Node>(NodeType::NOOP);
+    // }
 
-    expect(TokenType::RBRACE);
-    return root;
+    // expect(TokenType::RBRACE);
+    // return root;
 }
 
 std::unique_ptr<Node> jason::impl::Parser::parse_pair()
@@ -78,6 +79,7 @@ std::unique_ptr<Node> jason::impl::Parser::parse_value()
     case TokenType::INT: return parse_int();
     case TokenType::STRING: return parse_str();
     case TokenType::LBRACKET: return parse_list();
+    case TokenType::LBRACE: return parse_map();
     default: return nullptr;
     }
 }
@@ -115,4 +117,20 @@ std::unique_ptr<Node> jason::impl::Parser::parse_list()
 
     expect(TokenType::RBRACKET);
     return list;
+}
+
+std::unique_ptr<Node> jason::impl::Parser::parse_map()
+{
+    expect(TokenType::LBRACE);
+    std::unique_ptr<Node> n = std::make_unique<Node>(NodeType::MAP);
+
+    while (m_curr.type != TokenType::RBRACE)
+    {
+        n->map_pairs.emplace_back(parse_pair());
+
+        if (m_curr.type != TokenType::RBRACE)
+            expect(TokenType::COMMA);
+    }
+
+    return n;
 }

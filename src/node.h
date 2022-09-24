@@ -12,8 +12,8 @@ namespace jason::impl
         INT,
         STRING,
         LIST,
-        PAIR,
-        COMPOUND
+        MAP,
+        PAIR
     };
 
     struct Node
@@ -33,8 +33,8 @@ namespace jason::impl
         // pair
         std::unique_ptr<Node> pair_key, pair_value;
 
-        // compound
-        std::vector<std::unique_ptr<Node>> cpd_values;
+        // map
+        std::vector<std::unique_ptr<Node>> map_pairs;
 
         Node(NodeType type)
             : type(type) {}

@@ -20,6 +20,7 @@ namespace jason::impl
         std::unique_ptr<Node> parse_str();
         std::unique_ptr<Node> parse_int();
         std::unique_ptr<Node> parse_list();
+        std::unique_ptr<Node> parse_map();
 
     private:
         Lexer m_lexer;

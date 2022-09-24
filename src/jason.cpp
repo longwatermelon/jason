@@ -14,7 +14,7 @@ jason::Json::Json(std::ifstream &ifs)
     impl::Parser parser(ss.str());
     std::unique_ptr<impl::Node> root = parser.parse();
 
-    m_pairs = std::move(root->cpd_values);
+    m_pairs = std::move(root->map_pairs);
 }
 
 jason::Json::Json(const std::string &contents)
@@ -22,7 +22,7 @@ jason::Json::Json(const std::string &contents)
     impl::Parser parser(contents);
     std::unique_ptr<impl::Node> root = parser.parse();
 
-    m_pairs = std::move(root->cpd_values);
+    m_pairs = std::move(root->map_pairs);
 }
 
 jason::Json::~Json()
